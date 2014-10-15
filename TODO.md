@@ -1,7 +1,6 @@
 TODO LIST
 
 Define rules
-  
 
 Create Parent Project - jonyfs
   Java 1.7 version
@@ -16,4 +15,4 @@ Create Crud Interfaces Project - jonyfs
 
 Create Crud Interfaces Implementation Project  - jonyfs
 
-CREATE BUILDER PROJECT - jonyfs
+Create Builder Project - jonyfs
