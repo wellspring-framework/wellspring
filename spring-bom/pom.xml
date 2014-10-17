@@ -43,6 +43,14 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.wellspring</groupId>
+				<artifactId>logback-bom</artifactId>
+				<version>${wellspring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -71,6 +79,13 @@
 				<artifactId>validation-api</artifactId>
 				<version>${javax.validation}</version>
 			</dependency>
+			
+			<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
+			<scope>test</scope>
+		</dependency> 
 		</dependencies>
 	</dependencyManagement>
 
@@ -81,6 +96,7 @@
 		<javax.mail.version>1.4.7</javax.mail.version>
 		<javax.validation>1.1.0.Final</javax.validation>
 		<spring-data-jpa.version>1.7.0.RELEASE</spring-data-jpa.version>
+		<jackson-databind.version>2.4.3</jackson-databind.version>
 	</properties>
 
 </project>

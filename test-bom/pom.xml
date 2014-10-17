@@ -35,7 +35,7 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>hsqldb</groupId>
+				<groupId>org.hsqldb</groupId>
 				<artifactId>hsqldb</artifactId>
 				<version>${hsqldb.version}</version>
 				<scope>test</scope>
@@ -48,12 +48,12 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<properties>
 		<mockito-all.version>1.9.5</mockito-all.version>
 		<easymock.version>2.0</easymock.version>
 		<junit.version>4.11</junit.version>
-		<hsqldb.version>1.8.0.10</hsqldb.version>
+		<hsqldb.version>2.2.8</hsqldb.version>
 		<hamcrest-all.version>1.3</hamcrest-all.version>
 	</properties>
 </project>
