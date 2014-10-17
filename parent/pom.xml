@@ -3,6 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.wellspring</groupId>
 	<artifactId>parent</artifactId>
+
 	<version>${wellspring.version}</version>
 	<packaging>pom</packaging>
 	<description>WellSpring Parent Project</description>
@@ -27,3 +28,4 @@
 		<wellspring.version>0.0.1-SNAPSHOT</wellspring.version>
 	</properties>
 </project>
+
