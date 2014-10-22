@@ -4,25 +4,21 @@ import java.io.Serializable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
-import org.wellspring.crud.persistence.domain.BasicEntity;
 
 @NoRepositoryBean
-public interface ReadableRepository<T extends BasicEntity, ID extends Serializable>
+public interface ReadableRepository<T extends Persistable<ID>, ID extends Serializable>
 		extends Repository<T, ID> {
 
 	/**
-	 * Retrieves an entity by its id.
+	 * Returns the number of entities available.
 	 * 
-	 * @param id
-	 *            must not be {@literal null}.
-	 * @return the entity with the given id or {@literal null} if none found
-	 * @throws IllegalArgumentException
-	 *             if {@code id} is {@literal null}
+	 * @return the number of entities
 	 */
-	T findOne(ID id);
+	long count();
 
 	/**
 	 * Returns whether an entity with the given id exists.
@@ -52,24 +48,29 @@ public interface ReadableRepository<T extends BasicEntity, ID extends Serializab
 	Iterable<T> findAll(Iterable<ID> ids);
 
 	/**
-	 * Returns the number of entities available.
 	 * 
-	 * @return the number of entities
+	 * @param pageable
+	 * @return all paginated entities
 	 */
-	long count();
+	Page<T> findAll(Pageable pageable);
 
 	/**
 	 * Returns all sorted instances of the type
+	 * 
 	 * @param sort
 	 * @return all sorted entities
 	 */
 	Iterable<T> findAll(Sort sort);
 
 	/**
+	 * Retrieves an entity by its id.
 	 * 
-	 * @param pageable
-	 * @return all paginated entities
+	 * @param id
+	 *            must not be {@literal null}.
+	 * @return the entity with the given id or {@literal null} if none found
+	 * @throws IllegalArgumentException
+	 *             if {@code id} is {@literal null}
 	 */
-	Page<T> findAll(Pageable pageable);
+	T findOne(ID id);
 
 }

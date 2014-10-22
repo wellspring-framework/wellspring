@@ -21,11 +21,29 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>${jetty-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>
+					<artifactId>tomcat7-maven-plugin</artifactId>
+					<version>${tomcat7-maven-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 	</build>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<wellspring.version>0.0.1-SNAPSHOT</wellspring.version>
+		<jetty-maven-plugin.version>9.2.3.v20140905</jetty-maven-plugin.version>
+		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
 	</properties>
 </project>
 

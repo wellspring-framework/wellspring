@@ -4,9 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 @Entity(name = "user")
-public class User extends BasicEntity {
+public class User extends AbstractAuditable<User, Long> {
 
 	private static final long serialVersionUID = 1L;
 

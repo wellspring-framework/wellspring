@@ -5,6 +5,7 @@
 		<artifactId>parent</artifactId>
 		<groupId>org.wellspring</groupId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>spring-bom</artifactId>
 	<packaging>pom</packaging>
@@ -43,7 +44,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.wellspring</groupId>
 				<artifactId>logback-bom</artifactId>
@@ -56,6 +57,11 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${javax.servlet-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet.jsp.jstl</groupId>
+				<artifactId>jstl-api</artifactId>
+				<version>${jstl-api.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.mail</groupId>
@@ -79,24 +85,66 @@
 				<artifactId>validation-api</artifactId>
 				<version>${javax.validation}</version>
 			</dependency>
-			
+
 			<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson-databind.version}</version>
-			<scope>test</scope>
-		</dependency> 
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Tiles -->
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-api</artifactId>
+				<version>${tiles.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-core</artifactId>
+				<version>${tiles.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-jsp</artifactId>
+				<version>${tiles.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jayway.jsonpath</groupId>
+				<artifactId>json-path-assert</artifactId>
+				<version>${json-path-assert.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>${dozer.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda-time.version}</version>
+			</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 
 	<properties>
-		<org.springframework.version>4.0.6.RELEASE</org.springframework.version>
+		<org.springframework.version>4.1.1.RELEASE</org.springframework.version>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
 		<javax.servlet-api>3.1.0</javax.servlet-api>
 		<javax.mail.version>1.4.7</javax.mail.version>
 		<javax.validation>1.1.0.Final</javax.validation>
 		<spring-data-jpa.version>1.7.0.RELEASE</spring-data-jpa.version>
 		<jackson-databind.version>2.4.3</jackson-databind.version>
+		<tiles.version>3.0.4</tiles.version>
+		<jstl-api.version>1.2</jstl-api.version>
+		<json-path-assert.version>0.9.1</json-path-assert.version>
+		<dozer.version>5.5.1</dozer.version>
+		<joda-time.version>2.5</joda-time.version>
 	</properties>
 
 </project>

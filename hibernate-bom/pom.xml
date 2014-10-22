@@ -5,6 +5,7 @@
 		<artifactId>parent</artifactId>
 		<groupId>org.wellspring</groupId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>hibernate-bom</artifactId>
 	<packaging>pom</packaging>

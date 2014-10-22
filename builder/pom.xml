@@ -13,12 +13,12 @@
 		<module>../parent</module>
 		<module>../eclipse-support</module>
 		<module>../test-bom</module>
-
 		<module>../logback-bom</module>
 		<module>../hibernate-bom</module>
 		<module>../spring-bom</module>
-
+		<module>../config</module>
 		<module>../crud</module>
+		<module>../crud-angular-example</module>
 	</modules>
 
 	<build>

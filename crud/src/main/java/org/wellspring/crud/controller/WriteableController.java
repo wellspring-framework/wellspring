@@ -2,28 +2,11 @@ package org.wellspring.crud.controller;
 
 import java.io.Serializable;
 
-import org.wellspring.crud.persistence.domain.BasicEntity;
+import org.springframework.data.domain.Persistable;
+import org.wellspring.crud.persistence.repository.WriteableRepository;
+import org.wellspring.crud.service.WriteableService;
 
-public interface WriteableController<T extends BasicEntity, ID extends Serializable> {
-	/**
-	 * Saves a given entity. Use the returned instance for further operations as
-	 * the save operation might have changed the entity instance completely.
-	 * 
-	 * @param entity
-	 * @return the saved entity
-	 */
-	<S extends T> S save(S entity);
-
-	/**
-	 * Saves all given entities.
-	 * 
-	 * @param entities
-	 * @return the saved entities
-	 * @throws IllegalArgumentException
-	 *             in case the given entity is (@literal null}.
-	 */
-	<S extends T> Iterable<S> save(Iterable<S> entities);
-
+public interface WriteableController<S extends WriteableService<R, T, ID>, R extends WriteableRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable> {
 	/**
 	 * Retrieves an entity by its id.
 	 * 
@@ -37,15 +20,6 @@ public interface WriteableController<T extends BasicEntity, ID extends Serializa
 	void delete(ID id);
 
 	/**
-	 * Deletes a given entity.
-	 * 
-	 * @param entity
-	 * @throws IllegalArgumentException
-	 *             in case the given entity is (@literal null}.
-	 */
-	void delete(T entity);
-
-	/**
 	 * Deletes the given entities.
 	 * 
 	 * @param entities
@@ -55,7 +29,35 @@ public interface WriteableController<T extends BasicEntity, ID extends Serializa
 	void delete(Iterable<? extends T> entities);
 
 	/**
+	 * Deletes a given entity.
+	 * 
+	 * @param entity
+	 * @throws IllegalArgumentException
+	 *             in case the given entity is (@literal null}.
+	 */
+	void delete(T entity);
+
+	/**
 	 * Deletes all entities managed by the repository.
 	 */
 	void deleteAll();
+
+	/**
+	 * Saves all given entities.
+	 * 
+	 * @param entities
+	 * @return the saved entities
+	 * @throws IllegalArgumentException
+	 *             in case the given entity is (@literal null}.
+	 */
+	Iterable<T> save(Iterable<T> entities);
+
+	/**
+	 * Saves a given entity. Use the returned instance for further operations as
+	 * the save operation might have changed the entity instance completely.
+	 * 
+	 * @param entity
+	 * @return the saved entity
+	 */
+	T save(T entity);
 }

@@ -4,20 +4,18 @@ import java.io.Serializable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
-import org.wellspring.crud.persistence.domain.BasicEntity;
+import org.wellspring.crud.persistence.repository.ReadableRepository;
+import org.wellspring.crud.service.ReadableService;
 
-public interface ReadableController<T extends BasicEntity, ID extends Serializable> {
+public interface ReadableController<S extends ReadableService<R, T, ID>, R extends ReadableRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable> {
 	/**
-	 * Retrieves an entity by its id.
+	 * Returns the number of entities available.
 	 * 
-	 * @param id
-	 *            must not be {@literal null}.
-	 * @return the entity with the given id or {@literal null} if none found
-	 * @throws IllegalArgumentException
-	 *             if {@code id} is {@literal null}
+	 * @return the number of entities
 	 */
-	T findOne(ID id);
+	long count();
 
 	/**
 	 * Returns whether an entity with the given id exists.
@@ -47,11 +45,11 @@ public interface ReadableController<T extends BasicEntity, ID extends Serializab
 	Iterable<T> findAll(Iterable<ID> ids);
 
 	/**
-	 * Returns the number of entities available.
 	 * 
-	 * @return the number of entities
+	 * @param pageable
+	 * @return all paginated entities
 	 */
-	long count();
+	Page<T> findAll(Pageable pageable);
 
 	/**
 	 * Deletes the entity with the given id.
@@ -71,9 +69,13 @@ public interface ReadableController<T extends BasicEntity, ID extends Serializab
 	Iterable<T> findAll(Sort sort);
 
 	/**
+	 * Retrieves an entity by its id.
 	 * 
-	 * @param pageable
-	 * @return all paginated entities
+	 * @param id
+	 *            must not be {@literal null}.
+	 * @return the entity with the given id or {@literal null} if none found
+	 * @throws IllegalArgumentException
+	 *             if {@code id} is {@literal null}
 	 */
-	Page<T> findAll(Pageable pageable);
+	T findOne(ID id);
 }

@@ -2,17 +2,15 @@ TODO LIST
 
 Define rules
 
-Create Parent Project - jonyfs
+Create Parent Project - jonyfs - OK
   Java 1.7 version
   
-Create Hibernate BOM project - jonyfs
+Create Hibernate BOM project - jonyfs - OK
 
-Create Tests BOM project - jonyfs
+Create Tests BOM project - jonyfs - OK
 
-Create Logs BOM project - jonyfs
+Create Logback BOM project - jonyfs - OK
 
-Create Crud Interfaces Project - jonyfs
+Create Crud Project - jonyfs - OK
 
-Create Crud Interfaces Implementation Project  - jonyfs
-
-Create Builder Project - jonyfs
+Create Builder Project - jonyfs - OK
