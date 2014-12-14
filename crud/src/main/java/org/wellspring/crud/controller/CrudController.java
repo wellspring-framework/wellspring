@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.BindingResult;
 import org.wellspring.crud.persistence.repository.CrudRepository;
 import org.wellspring.crud.service.CrudService;
 
-public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable> {
+public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudRepository<T, ID>, T, ID extends Serializable> {
 
 	/**
 	 * Returns the number of entities available.
@@ -133,4 +133,60 @@ public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudR
 	 * @return the saved entity
 	 */
 	T save(T entity);
+
+	/**
+	 * Validates the entity object
+	 * 
+	 * @param entity
+	 * @param result
+	 * @param m
+	 */
+	public boolean validate(T entity, BindingResult bindingResult);
+
+	/**
+	 * Returns a single entity matching the given {@link Specification}.
+	 * 
+	 * @param spec
+	 * @return
+	 */
+	// T findOne(Specification<T> spec);
+
+	/**
+	 * Returns all entities matching the given {@link Specification}.
+	 * 
+	 * @param spec
+	 * @return
+	 */
+	// List<T> findAll(Specification<T> spec);
+
+	/**
+	 * Returns a {@link Page} of entities matching the given
+	 * {@link Specification}.
+	 * 
+	 * @param spec
+	 * @param pageable
+	 * @return
+	 */
+	// Page<T> findAll(Specification<T> spec, Pageable pageable);
+
+	/**
+	 * Returns all entities matching the given {@link Specification} and
+	 * {@link Sort}.
+	 * 
+	 * @param spec
+	 * @param sort
+	 * @return
+	 */
+	// List<T> findAll(Specification<T> spec, Sort sort);
+
+	/**
+	 * Returns the number of instances that the given {@link Specification} will
+	 * return.
+	 * 
+	 * @param spec
+	 *            the {@link Specification} to count instances for
+	 * @return the number of instances
+	 */
+	// long count(Specification<T> spec);
+
 }

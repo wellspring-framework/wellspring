@@ -4,12 +4,11 @@ import java.io.Serializable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
 import org.wellspring.crud.persistence.repository.ReadableRepository;
 import org.wellspring.crud.service.ReadableService;
 
-public interface ReadableController<S extends ReadableService<R, T, ID>, R extends ReadableRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable> {
+public interface ReadableController<S extends ReadableService<R, T, ID>, R extends ReadableRepository<T, ID>, T, ID extends Serializable> {
 	/**
 	 * Returns the number of entities available.
 	 * 

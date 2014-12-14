@@ -1,39 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.wellspring</groupId>
-		<artifactId>parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+	<groupId>org.wellspring</groupId>
 	<artifactId>builder</artifactId>
 	<packaging>pom</packaging>
-
+	<version>${wellspring.version}</version>
 	<modules>
 		<module>../parent</module>
 		<module>../eclipse-support</module>
 		<module>../test-bom</module>
 		<module>../logback-bom</module>
 		<module>../hibernate-bom</module>
+		<module>../camel-bom</module>
 		<module>../spring-bom</module>
+		<module>../util</module>
 		<module>../config</module>
 		<module>../crud</module>
-		<module>../crud-angular-example</module>
+		<module>../solr</module>
 	</modules>
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surefire-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-
 	<properties>
-		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+		<wellspring.version>0.0.1-SNAPSHOT</wellspring.version>
 	</properties>
 </project>

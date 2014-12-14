@@ -1,14 +1,15 @@
 package org.wellspring.crud.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.wellspring.crud.persistence.repository.ReadableRepository;
 
-public interface ReadableService<R extends ReadableRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable> {
+public interface ReadableService<R extends ReadableRepository<T, ID>, T, ID extends Serializable> {
 	/**
 	 * Returns the number of entities available.
 	 * 
@@ -68,4 +69,50 @@ public interface ReadableService<R extends ReadableRepository<T, ID>, T extends 
 	 *             if {@code id} is {@literal null}
 	 */
 	T findOne(ID id);
+
+	/**
+	 * Returns a single entity matching the given {@link Specification}.
+	 * 
+	 * @param spec
+	 * @return
+	 */
+	T findOne(Specification<T> spec);
+
+	/**
+	 * Returns all entities matching the given {@link Specification}.
+	 * 
+	 * @param spec
+	 * @return
+	 */
+	List<T> findAll(Specification<T> spec);
+
+	/**
+	 * Returns a {@link Page} of entities matching the given
+	 * {@link Specification}.
+	 * 
+	 * @param spec
+	 * @param pageable
+	 * @return
+	 */
+	Page<T> findAll(Specification<T> spec, Pageable pageable);
+
+	/**
+	 * Returns all entities matching the given {@link Specification} and
+	 * {@link Sort}.
+	 * 
+	 * @param spec
+	 * @param sort
+	 * @return
+	 */
+	List<T> findAll(Specification<T> spec, Sort sort);
+
+	/**
+	 * Returns the number of instances that the given {@link Specification} will
+	 * return.
+	 * 
+	 * @param spec
+	 *            the {@link Specification} to count instances for
+	 * @return the number of instances
+	 */
+	long count(Specification<T> spec);
 }

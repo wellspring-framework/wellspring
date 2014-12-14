@@ -1,0 +1,4 @@
+language: java
+before_script: mvn install -f ./parent/pom.xml
+install: mvn install -f ./builder/pom.xml
+after_script: mvn test -f ./builder/pom.xml

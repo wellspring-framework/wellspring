@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -9,6 +10,13 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
+	<properties>
+		<mockito-all.version>1.9.5</mockito-all.version>
+		<easymock.version>2.0</easymock.version>
+		<junit.version>4.12</junit.version>
+		<hsqldb.version>2.3.2</hsqldb.version>
+		<hamcrest-all.version>1.3</hamcrest-all.version>
+	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -49,12 +57,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<properties>
-		<mockito-all.version>1.9.5</mockito-all.version>
-		<easymock.version>2.0</easymock.version>
-		<junit.version>4.11</junit.version>
-		<hsqldb.version>2.2.8</hsqldb.version>
-		<hamcrest-all.version>1.3</hamcrest-all.version>
-	</properties>
 </project>

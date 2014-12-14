@@ -12,16 +12,16 @@ See here for more details: http://gordondickens.com/wordpress/2013/03/27/sawing-
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level %logger{0} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
 	<!--<logger name="org.hibernate" level="debug"/> -->
     <logger name="org.hibernate" level="info"/>
-    <logger name="org.springframework" level="info"/>
+    <logger name="org.springframework" level="debug"/>
     <logger name="org.wellspring" level="debug"/>
          
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="console"/>
     </root>
 </configuration>

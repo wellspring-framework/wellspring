@@ -1,0 +1,23 @@
+div(ng-include='"components/navbar/navbar.html"')
+.container
+	.row
+		.col-md-12(draggable='true', style='')
+			.page-header
+				h4
+					| {{pageTitle}} {{entity.name}} 
+					font(color='#777777')
+						spanspan(style='font-size: 18px; line-height: 19px;') details
+	.row
+		.col-md-12
+			.form-group
+				label.col-sm-2.control-label(for='id') Id:
+				span#id {{entity.id}}
+			.form-group
+				label.col-sm-2.control-label(for='name') Name:
+				span#name {{entity.name}}
+			.form-group
+				label.col-sm-2.control-label(for='price') Unit Price:
+				span#price {{entity.price | currency: '$ ' }}
+	div
+		a.btn.btn-default.glyphicon.glyphicon-step-backward(href='/products/{{entity.id}}/edit') Edit
+		a.btn.btn-default.glyphicon.glyphicon-step-backward(href='/products') Back

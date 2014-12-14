@@ -1,17 +1,19 @@
 package org.wellspring.crud.persistence.repository;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
 @NoRepositoryBean
-public interface ReadableRepository<T extends Persistable<ID>, ID extends Serializable>
-		extends Repository<T, ID> {
+public interface ReadableRepository<T, ID extends Serializable>
+		extends Repository<T, ID>, JpaSpecificationExecutor<T> {
 
 	/**
 	 * Returns the number of entities available.
@@ -72,5 +74,56 @@ public interface ReadableRepository<T extends Persistable<ID>, ID extends Serial
 	 *             if {@code id} is {@literal null}
 	 */
 	T findOne(ID id);
+
+	/**
+	 * Returns a single entity matching the given {@link Specification}.
+	 * 
+	 * @param spec
+	 * @return
+	 */
+	@Override
+	T findOne(Specification<T> spec);
+
+	/**
+	 * Returns all entities matching the given {@link Specification}.
+	 * 
+	 * @param spec
+	 * @return
+	 */
+	@Override
+	List<T> findAll(Specification<T> spec);
+
+	/**
+	 * Returns a {@link Page} of entities matching the given
+	 * {@link Specification}.
+	 * 
+	 * @param spec
+	 * @param pageable
+	 * @return
+	 */
+	@Override
+	Page<T> findAll(Specification<T> spec, Pageable pageable);
+
+	/**
+	 * Returns all entities matching the given {@link Specification} and
+	 * {@link Sort}.
+	 * 
+	 * @param spec
+	 * @param sort
+	 * @return
+	 */
+	@Override
+	List<T> findAll(Specification<T> spec, Sort sort);
+
+	/**
+	 * Returns the number of instances that the given {@link Specification} will
+	 * return.
+	 * 
+	 * @param spec
+	 *            the {@link Specification} to count instances for
+	 * @return the number of instances
+	 */
+	@Override
+	long count(Specification<T> spec);
 
 }

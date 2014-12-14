@@ -1,18 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.wellspring</groupId>
 		<artifactId>parent</artifactId>
+		<groupId>org.wellspring</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>crud</artifactId>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.wellspring</groupId>
 				<artifactId>spring-bom</artifactId>
+				<version>${wellspring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.wellspring</groupId>
+				<artifactId>hibernate-bom</artifactId>
+				<version>${wellspring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.wellspring</groupId>
+				<artifactId>test-bom</artifactId>
+				<version>${wellspring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.wellspring</groupId>
+				<artifactId>logback-bom</artifactId>
 				<version>${wellspring.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
@@ -47,12 +70,10 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -72,11 +93,7 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<scope>test</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -94,29 +111,39 @@
 			<artifactId>dozer</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.wellspring</groupId>
 			<artifactId>config</artifactId>
 			<version>${wellspring.version}</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.plugin</groupId>
+			<artifactId>spring-plugin-core</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>com.mangofactory</groupId>
+			<artifactId>swagger-springmvc</artifactId>
+		</dependency>
+
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<!-- Separates the unit tests from the integration tests. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<!-- Skip the default running of this plug-in (or everything is run 
-						twice...see below) -->
-					<skip>true</skip>
-					<!-- Show 100% of the lines from the stack trace (doesn't work) -->
-					<trimStackTrace>false</trimStackTrace>
-				</configuration>
 				<executions>
 					<execution>
 						<id>unit-tests</id>
@@ -154,6 +181,13 @@
 						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<!-- Skip the default running of this plug-in (or everything is run 
+						twice...see below) -->
+					<skip>true</skip>
+					<!-- Show 100% of the lines from the stack trace (doesn't work) -->
+					<trimStackTrace>false</trimStackTrace>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

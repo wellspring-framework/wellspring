@@ -1,27 +1,46 @@
 package org.wellspring.crud.service.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.Assert;
 import org.wellspring.crud.persistence.repository.CrudRepository;
 import org.wellspring.crud.service.CrudService;
 
-public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable>
+// TODO http://stackoverflow.com/questions/27950246/spring-data-overriding-default-methods-for-some-repositories
+public class CrudServiceImpl<R extends CrudRepository<T, ID>, T, ID extends Serializable>
 		implements CrudService<R, T, ID> {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RedeableServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CrudServiceImpl.class);
 
 	@Resource
-	private CrudRepository<T, ID> repository;
+	EntityManager entityManager;
 
-	public CrudRepository<T, ID> getRepository() {
+	// @Resource
+	// private CrudRepository<T, ID> repository;
+	@Autowired
+	private R repository;
+
+	private Class<T> entityClass;
+
+	@SuppressWarnings("unchecked")
+	public CrudServiceImpl() {
+		this.entityClass = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[1];
+	}
+
+	public R getRepository() {
 		return repository;
 	}
 
@@ -32,16 +51,19 @@ public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persista
 
 	@Override
 	public void delete(ID id) {
+		assertNullId(id);
 		repository.delete(id);
 	}
 
 	@Override
 	public void delete(Iterable<? extends T> entities) {
+		assertNullEntities(entities);
 		repository.delete(entities);
 	}
 
 	@Override
 	public void delete(T entity) {
+		assertNull(entity);
 		repository.delete(entity);
 	}
 
@@ -52,6 +74,7 @@ public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persista
 
 	@Override
 	public boolean exists(ID id) {
+		assertNullId(id);
 		LOGGER.debug("Exists pk " + id.getClass().getName() + " (" + id
 				+ ")?...");
 		return repository.exists(id);
@@ -59,12 +82,13 @@ public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persista
 
 	@Override
 	public Iterable<T> findAll() {
-		LOGGER.debug("Finding All ");
+		LOGGER.debug("Finding All Entities of type " + entityClass.getSimpleName());
 		return repository.findAll();
 	}
 
 	@Override
 	public Iterable<T> findAll(Iterable<ID> ids) {
+		assertNullIds(ids);
 		for (ID id : ids) {
 			LOGGER.debug("Exists pk " + id.getClass().getName() + " (" + id
 					+ ")?...");
@@ -84,6 +108,7 @@ public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persista
 
 	@Override
 	public T findOne(ID id) {
+		assertNullId(id);
 		LOGGER.debug("Finding by pk " + id.getClass().getName() + " (" + id
 				+ ")...");
 		return repository.findOne(id);
@@ -91,13 +116,16 @@ public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persista
 
 	@Override
 	public <S extends T> Iterable<S> save(Iterable<S> entities) {
+		assertNullEntities(entities);
 		for (S entity : entities) {
-			if (entity.getId() == null) {
-				LOGGER.debug("Saving " + entity.getClass().getName() + "...");
+			if (entity instanceof Persistable<?>) {
+				if (((Persistable<?>) entity).getId() == null) {
+					LOGGER.debug("Saving " + entity.getClass().getName() + "...");
 
-			} else {
-				LOGGER.debug("Saving " + entity.getClass().getName()
-						+ " ( id = " + entity.getId() + ")...");
+				} else {
+					LOGGER.debug("Saving " + entity.getClass().getName()
+							+ " ( id = " + ((Persistable<?>) entity).getId() + ")...");
+				}
 			}
 		}
 		return repository.save(entities);
@@ -106,18 +134,71 @@ public class CrudServiceImpl<R extends CrudRepository<T, ID>, T extends Persista
 	@Override
 	public <S extends T> S save(S entity) {
 		try {
-			if (entity.getId() == null) {
-				LOGGER.debug("Saving " + entity.getClass().getName() + "...");
+			assertNull(entity);
+			if (entity instanceof Persistable<?>) {
+				if (((Persistable<?>) entity).getId() == null) {
+					LOGGER.debug("Saving " + entity.getClass().getName() + "...");
 
-			} else {
-				LOGGER.debug("Saving " + entity.getClass().getName()
-						+ " ( id = " + entity.getId() + ")...");
+				} else {
+					LOGGER.debug("Saving " + entity.getClass().getName()
+							+ " ( id = " + ((Persistable<?>) entity).getId() + ")...");
+				}
 			}
 			entity = repository.save(entity);
 			return entity;
 		} finally {
-			LOGGER.debug(entity.getClass().getName() + " ( id = "
-					+ entity.getId() + ") was saved");
+			if (entity instanceof Persistable<?>) {
+				LOGGER.debug(entity.getClass().getName() + " ( id = "
+						+ ((Persistable<?>) entity).getId() + ") was saved");
+			}
 		}
 	}
+
+	@Override
+	public T findOne(Specification<T> spec) {
+		return repository.findOne(spec);
+	}
+
+	@Override
+	public List<T> findAll(Specification<T> spec) {
+		return repository.findAll(spec);
+	}
+
+	@Override
+	public Page<T> findAll(Specification<T> spec, Pageable pageable) {
+		return repository.findAll(spec, pageable);
+	}
+
+	@Override
+	public List<T> findAll(Specification<T> spec, Sort sort) {
+		return repository.findAll(spec, sort);
+	}
+
+	@Override
+	public long count(Specification<T> spec) {
+		return repository.count(spec);
+	}
+
+	private void validateEntity(ID id) {
+		if (repository.findOne(id) == null) {
+			throw new org.wellspring.crud.exceptions.EntityNotFoundException(String.valueOf(id));
+		}
+	}
+
+	private void assertNull(T entity) {
+		Assert.notNull(entity, "entity object must not be null!");
+	}
+
+	private void assertNullId(ID id) {
+		Assert.notNull(id, "ids object must not be null!");
+	}
+
+	private void assertNullIds(Iterable<ID> ids) {
+		Assert.notNull(ids, "ids object must not be null!");
+	}
+
+	private void assertNullEntities(Iterable<? extends T> entities) {
+		Assert.notNull(entities, "entities object must not be null!");
+	}
+
 }
