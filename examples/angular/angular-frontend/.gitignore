@@ -6,3 +6,5 @@ client/bower_components
 dist
 /server/
 /e2e/
+/angular-frontend.sublime-project
+/angular-frontend.sublime-workspace

@@ -15,9 +15,7 @@ angular.module('angularFrontendApp')
 
 	$scope.newUrl = '/users/new'; 
 
-	$scope.baseUrl = '/users'; 
-
-	$scope.size = 4;	
+	$scope.baseUrl = '/users';
 
 	$scope.maxPages = 5;
 

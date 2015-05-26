@@ -17,8 +17,6 @@ angular.module('angularFrontendApp')
 
 	$scope.baseUrl = '/products'; 
 
-	$scope.size = 5;	
-
 	$scope.maxPages = 4;
 
 	$controller('PaginationCtrl', { $scope: $scope});
