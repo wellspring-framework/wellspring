@@ -24,9 +24,9 @@ circleci: [![Circle CI](https://circleci.com/gh/wellspring-framework/wellspring.
 
 1. Using [AngularJS](https://angularjs.org/):
 
- * [angular-frontend](https://github.com/wellspring-framework/wellspring/tree/master/examples/angular/angular-frontend)
+ * [angular-frontend](https://github.com/wellspring-framework/angular-frontend)
 	
- * [angular-backend](https://github.com/wellspring-framework/wellspring/tree/master/examples/angular/angular-backend)
+ * [angular-backend](https://github.com/wellspring-framework/angular-backend)
 
 
 ### Project status

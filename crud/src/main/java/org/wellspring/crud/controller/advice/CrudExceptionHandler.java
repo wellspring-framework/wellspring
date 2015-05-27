@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,6 +62,33 @@ public class CrudExceptionHandler extends ResponseEntityExceptionHandler {
 		LOGGER.debug("\nEntityNotFound:" + error.toString());
 
 		return handleExceptionInternal(e, error, headers, HttpStatus.NOT_FOUND, request);
+	}
+
+	@ExceptionHandler({ AccessDeniedException.class })
+	protected ResponseEntity<Object> handleAccessDenied(RuntimeException e, WebRequest request) {
+		AccessDeniedException exception = (AccessDeniedException) e;
+
+		ErrorResource error = new ErrorResource("AccessDenied", exception.getMessage());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		LOGGER.debug("\nAccessDenied:" + error.toString());
+
+		return handleExceptionInternal(e, error, headers, HttpStatus.FORBIDDEN, request);
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleError(Exception e, WebRequest request) {
+		AccessDeniedException exception = (AccessDeniedException) e;
+
+		ErrorResource error = new ErrorResource("Exception", exception.getMessage());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		LOGGER.debug("\nException:" + error.toString());
+		return handleExceptionInternal(e, error, headers, HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 
 }

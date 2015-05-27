@@ -17,6 +17,11 @@ public class ResourcePaths {
 
 	public static final String URL_FIND_SEARCH_TERM = "/findBySearchTerm";
 
+	public class ApiDoc {
+		public static final String ROOT = ROOT_API + "/apidoc";
+		public static final String INDEX = ROOT + "/index";
+	}
+
 	public class Product {
 		public static final String ROOT = "/products";
 	}

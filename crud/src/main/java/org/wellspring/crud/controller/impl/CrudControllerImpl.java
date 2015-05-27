@@ -87,7 +87,6 @@ public class CrudControllerImpl<S extends CrudService<R, T, ID>, R extends CrudR
 	}
 
 	/**
-	 * 
 	 * @param pageable
 	 * @return all paginated entities
 	 */

@@ -3,6 +3,8 @@ package org.wellspring.crud.test.integration;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.restdocs.RestDocumentation.document;
+import static org.springframework.restdocs.RestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -16,8 +18,6 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -53,6 +53,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
+import junit.framework.TestCase;
+
 @ComponentScan("org.wellspring.crud")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfiguration.class })
@@ -72,9 +74,6 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 	abstract Map<ID, Persistable<ID>> getEntities();
 
 	private String basicMapping;
-
-	@Autowired
-	private org.springframework.context.ApplicationContext applicationContext;
 
 	ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(SerializationFeature.INDENT_OUTPUT, true).registerModule(new JodaModule());
 
@@ -105,7 +104,10 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setup() throws JsonProcessingException, Exception {
-		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+				.apply(documentationConfiguration())
+				.build();
 
 		entityClass = (Class<T>) ((ParameterizedType) this.getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[3];
@@ -136,14 +138,22 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 									.contentType(MediaType.APPLICATION_JSON)
 									.content(mapper.writeValueAsString(persistable)))
 					.andDo(print())
+					.andDo(document(basicMapping + "/post"))
 					.andExpect(status().isCreated())
 
-					.andExpect((jsonPath("$.id", notNullValue())))
+			.andExpect((jsonPath("$.id", notNullValue())))
 					.andReturn();
 			persistable = getRawObject(mvcResult);
 			entities.put(persistable.getId(), persistable);
 		}
 	}
+
+	// @Test
+	// public void testRestDoc() throws Exception {
+	// this.mockMvc.perform(get("/").accept(MediaType.APPLICATION_JSON))
+	// .andExpect(status().isOk())
+	// .andDo(document("index"));
+	// }
 
 	@Test
 	public void aEntitiesSizeTest() {
@@ -163,9 +173,10 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 										.contentType(MediaType.APPLICATION_JSON)
 										.content(mapper.writeValueAsString(persistable)))
 						.andDo(print())
+						.andDo(document(basicMapping + "/put"))
 						.andExpect(status().isOk()) // saved again
 
-						.andExpect((jsonPath("$.id", notNullValue())))
+				.andExpect((jsonPath("$.id", notNullValue())))
 						.andReturn();
 
 			}
@@ -177,29 +188,6 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 
 	}
 
-	//
-	// @Test
-	// public void updateAllTest() throws Exception {
-	//
-	// try {
-	//
-	// mockMvc
-	// .perform(
-	// put(basicMapping + CrudConstants.OPERATION_UPDATE_ENTITIES)
-	// .contentType(MediaType.APPLICATION_JSON)
-	// .content(mapper.writeValueAsString(entities.values())))
-	// .andDo(print())
-	// .andExpect(status().isOk())
-	// .andExpect((jsonPath("$.id", notNullValue())))
-	// .andReturn();
-	//
-	// } catch (Exception e) {
-	// LOGGER.error("fail", e);
-	// throw e;
-	// }
-	//
-	// }
-
 	@Test
 	public void cCountTest()
 			throws JsonProcessingException, Exception {
@@ -209,6 +197,7 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 					.perform(
 							get(basicMapping + CrudConstants.OPERATION_COUNT))
 					.andDo(print())
+					.andDo(document(basicMapping + CrudConstants.OPERATION_COUNT))
 					.andExpect(status().isOk())
 					.andExpect((jsonPath("$.content", isA(Integer.class))))
 					.andExpect((jsonPath("$", notNullValue())))
@@ -230,16 +219,17 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 				mockMvc
 						.perform(
 								get(
-								basicMapping + CrudConstants.OPERATION_FIND_ONE
-										+ "/" + persistable.getId()))
+										basicMapping + CrudConstants.OPERATION_FIND_ONE
+												+ "/" + persistable.getId()))
 						.andDo(print())
+						.andDo(document(basicMapping + "/get"))
 						.andExpect(status().isOk())
 
-						.andExpect((jsonPath("$.id", notNullValue())))
+				.andExpect((jsonPath("$.id", notNullValue())))
 
-						// .andExpect((jsonPath("$.id").value(persistable.getId())))
+				// .andExpect((jsonPath("$.id").value(persistable.getId())))
 
-						.andReturn();
+				.andReturn();
 			}
 
 		} catch (Exception e) {
@@ -257,14 +247,15 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 				mockMvc
 						.perform(
 								get(
-								basicMapping + CrudConstants.OPERATION_EXISTS
-										+ "/" + persistable.getId()))
+										basicMapping + CrudConstants.OPERATION_EXISTS
+												+ "/" + persistable.getId()))
 						.andDo(print())
+						.andDo(document(basicMapping + CrudConstants.OPERATION_EXISTS))
 						.andExpect(status().isOk())
 
-						.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$", notNullValue())))
 
-						.andReturn();
+				.andReturn();
 			}
 		} catch (Exception e) {
 			LOGGER.error("fail", e);
@@ -279,14 +270,15 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 				mockMvc
 						.perform(
 								delete(
-								basicMapping + CrudConstants.OPERATION_DELETE_BY_ID
-										+ "/" + persistable.getId()))
+										basicMapping + CrudConstants.OPERATION_DELETE_BY_ID
+												+ "/" + persistable.getId()))
 						.andDo(print())
+						.andDo(document(basicMapping + CrudConstants.OPERATION_DELETE_BY_ID))
 						.andExpect(status().isOk())
 
-						.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$", notNullValue())))
 
-						.andReturn();
+				.andReturn();
 			}
 		} catch (Exception e) {
 			LOGGER.error("fail", e);
@@ -303,14 +295,16 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 								delete(
 										basicMapping
 												+ CrudConstants.OPERATION_DELETE_BY_ENTITY)
-										.contentType(MediaType.APPLICATION_JSON)
-										.content(mapper.writeValueAsString(persistable)))
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(mapper.writeValueAsString(persistable)))
 						.andDo(print())
+						.andDo(document(basicMapping
+								+ CrudConstants.OPERATION_DELETE_BY_ENTITY))
 						.andExpect(status().isOk())
 
-						.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$", notNullValue())))
 
-						.andReturn();
+				.andReturn();
 			}
 		} catch (Exception e) {
 			LOGGER.error("fail", e);
@@ -326,11 +320,12 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 					.perform(
 							delete(basicMapping + CrudConstants.OPERATION_DELETE_ALL))
 					.andDo(print())
+					.andDo(document(basicMapping + CrudConstants.OPERATION_DELETE_ALL))
 					.andExpect(status().isOk())
 
-					.andExpect((jsonPath("$", notNullValue())))
+			.andExpect((jsonPath("$", notNullValue())))
 
-					.andReturn();
+			.andReturn();
 
 		} catch (Exception e) {
 			LOGGER.error("fail", e);
@@ -347,16 +342,17 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 								post(
 										basicMapping
 												+ CrudConstants.OPERATION_VALIDATE)
-										.contentType(MediaType.APPLICATION_JSON)
-										.content(mapper.writeValueAsString(persistable)))
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(mapper.writeValueAsString(persistable)))
 						.andDo(print())
+						.andDo(document(basicMapping + CrudConstants.OPERATION_VALIDATE))
 						.andExpect(status().isOk())
 
-						.andExpect((jsonPath("$", notNullValue())))
+				.andExpect((jsonPath("$", notNullValue())))
 						.andExpect((jsonPath("$.content", isA(Boolean.class))))
 						.andExpect((jsonPath("$.content", is(true))))
 
-						.andReturn();
+				.andReturn();
 			}
 		} catch (Exception e) {
 			LOGGER.error("fail", e);
@@ -373,11 +369,12 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 							post(
 									basicMapping
 											+ CrudConstants.OPERATION_VALIDATE)
-									.contentType(MediaType.APPLICATION_JSON)
-									.content(mapper.writeValueAsString(persistable)))
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(mapper.writeValueAsString(persistable)))
 					.andDo(print())
+					.andDo(document(basicMapping + CrudConstants.OPERATION_VALIDATE))
 
-					.andExpect(status().isUnprocessableEntity())
+			.andExpect(status().isUnprocessableEntity())
 					.andExpect((jsonPath("$", notNullValue()))).andDo(print())
 					.andExpect((jsonPath("$.code", notNullValue())))
 					.andExpect((jsonPath("$.message", notNullValue())))
@@ -398,6 +395,7 @@ public abstract class RestCrudTest<C extends RestCrudController<S, R, T, ID>, S 
 					.perform(
 							get(basicMapping + CrudConstants.OPERATION_QUERY))
 					.andDo(print())
+					.andDo(document(basicMapping + CrudConstants.OPERATION_QUERY))
 					.andExpect(status().isOk())
 					// .andExpect((jsonPath("$.content", isA(Integer.class))))
 					.andExpect((jsonPath("$", notNullValue())))

@@ -53,7 +53,6 @@ public class ReadableControllerImpl<S extends ReadableService<R, T, ID>, R exten
 	}
 
 	/**
-	 * 
 	 * @param pageable
 	 * @return all paginated entities
 	 */

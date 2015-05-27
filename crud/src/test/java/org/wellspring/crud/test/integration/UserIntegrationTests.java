@@ -58,10 +58,10 @@ public class UserIntegrationTests extends RestCrudTest<UserController, UserServi
 				.perform(
 						get(
 								ResourcePaths.User.ROOT + ResourcePaths.URL_FIND_SEARCH_TERM + "/John").contentType(
-								MediaType.APPLICATION_JSON))
+										MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 
-				.andDo(print()).andReturn();
+		.andDo(print()).andReturn();
 	}
 
 	@Test
@@ -70,23 +70,4 @@ public class UserIntegrationTests extends RestCrudTest<UserController, UserServi
 		assertTableHasColumn(manager, "user", "id");
 	}
 
-	@Test
-	public void swaggerTest() throws Exception {
-		mockMvc
-				.perform(
-						get(
-						"/api-docs"))
-				.andExpect(status().isOk())
-
-				.andDo(print()).andReturn();
-
-		mockMvc
-				.perform(
-						get(
-						"/api-docs/default/users"))
-				.andExpect(status().isOk())
-
-				.andDo(print()).andReturn();
-
-	}
 }

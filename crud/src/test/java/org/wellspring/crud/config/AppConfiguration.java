@@ -12,8 +12,6 @@ import org.wellspring.config.datasource.HsqlDataSourceConfig;
 import org.wellspring.config.jackson.JacksonConfig;
 import org.wellspring.crud.util.CrudPackageConstants;
 
-import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
@@ -22,10 +20,10 @@ import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 		CrudPackageConstants.DOMAIN_PACKAGE, CrudPackageConstants.SERVICE_PACKAGE,
 		CrudPackageConstants.CONTROLLER_PACKAGE })
 @EnableJpaRepositories(basePackages = {
-		CrudPackageConstants.REPOSITORY_IMPL_PACKAGE }, includeFilters = @ComponentScan.Filter(value = {}, type = FilterType.ASSIGNABLE_TYPE))
+		CrudPackageConstants.REPOSITORY_IMPL_PACKAGE }, includeFilters = @ComponentScan.Filter(value = {}, type = FilterType.ASSIGNABLE_TYPE) )
 @EnableTransactionManagement
 @Import({ WebInitializer.class, DispatcherConfig.class,
-		HsqlDataSourceConfig.class, CrudJPAConfiguration.class, JacksonConfig.class, SpringSwaggerConfig.class })
+		HsqlDataSourceConfig.class, CrudJPAConfiguration.class, JacksonConfig.class })
 public class AppConfiguration {
 
 }

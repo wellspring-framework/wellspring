@@ -6,7 +6,7 @@ import org.wellspring.crud.persistence.repository.impl.ProductRepository;
 import org.wellspring.crud.service.ProductService;
 
 @Service
-public class ProductServiceImpl extends CrudServiceImpl<ProductRepository, Product, Long> implements
+public class ProductServiceImpl extends CrudServiceImpl<ProductRepository, Product, Long>implements
 		ProductService {
 
 	/*

@@ -21,8 +21,7 @@ public interface ReadableController<S extends ReadableService<R, T, ID>, R exten
 	 * 
 	 * @param id
 	 *            must not be {@literal null}.
-	 * @return true if an entity with the given id exists, {@literal false}
-	 *         otherwise
+	 * @return true if an entity with the given id exists, {@literal false} otherwise
 	 * @throws IllegalArgumentException
 	 *             if {@code id} is {@literal null}
 	 */
@@ -44,7 +43,6 @@ public interface ReadableController<S extends ReadableService<R, T, ID>, R exten
 	Iterable<T> findAll(Iterable<ID> ids);
 
 	/**
-	 * 
 	 * @param pageable
 	 * @return all paginated entities
 	 */

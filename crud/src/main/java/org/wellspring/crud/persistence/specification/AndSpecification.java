@@ -25,8 +25,7 @@ public class AndSpecification<T, ID extends Serializable> extends AbstractSpecif
 	public Predicate toPredicate(Root<T> root, CriteriaBuilder cb) {
 		return cb.and(
 				first.toPredicate(root, cb),
-				second.toPredicate(root, cb)
-				);
+				second.toPredicate(root, cb));
 	}
 
 	@Override

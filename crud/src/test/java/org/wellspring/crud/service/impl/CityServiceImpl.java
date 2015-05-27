@@ -7,7 +7,7 @@ import org.wellspring.crud.service.CityService;
 
 @Service
 public class CityServiceImpl extends
-		RedeableServiceImpl<CityRepository, City, Long> implements
+		RedeableServiceImpl<CityRepository, City, Long>implements
 		CityService {
 
 	/*

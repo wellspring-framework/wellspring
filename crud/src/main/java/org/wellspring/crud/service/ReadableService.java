@@ -22,8 +22,7 @@ public interface ReadableService<R extends ReadableRepository<T, ID>, T, ID exte
 	 * 
 	 * @param id
 	 *            must not be {@literal null}.
-	 * @return true if an entity with the given id exists, {@literal false}
-	 *         otherwise
+	 * @return true if an entity with the given id exists, {@literal false} otherwise
 	 * @throws IllegalArgumentException
 	 *             if {@code id} is {@literal null}
 	 */
@@ -45,7 +44,6 @@ public interface ReadableService<R extends ReadableRepository<T, ID>, T, ID exte
 	Iterable<T> findAll(Iterable<ID> ids);
 
 	/**
-	 * 
 	 * @param pageable
 	 * @return all paginated entities
 	 */
@@ -87,8 +85,7 @@ public interface ReadableService<R extends ReadableRepository<T, ID>, T, ID exte
 	List<T> findAll(Specification<T> spec);
 
 	/**
-	 * Returns a {@link Page} of entities matching the given
-	 * {@link Specification}.
+	 * Returns a {@link Page} of entities matching the given {@link Specification}.
 	 * 
 	 * @param spec
 	 * @param pageable
@@ -97,8 +94,7 @@ public interface ReadableService<R extends ReadableRepository<T, ID>, T, ID exte
 	Page<T> findAll(Specification<T> spec, Pageable pageable);
 
 	/**
-	 * Returns all entities matching the given {@link Specification} and
-	 * {@link Sort}.
+	 * Returns all entities matching the given {@link Specification} and {@link Sort}.
 	 * 
 	 * @param spec
 	 * @param sort

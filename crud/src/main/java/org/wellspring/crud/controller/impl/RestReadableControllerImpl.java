@@ -32,8 +32,6 @@ import org.wellspring.crud.persistence.repository.ReadableRepository;
 import org.wellspring.crud.service.ReadableService;
 import org.wellspring.crud.util.CrudConstants;
 
-import com.wordnik.swagger.annotations.ApiOperation;
-
 public class RestReadableControllerImpl<S extends ReadableService<R, T, ID>, R extends ReadableRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable>
 		implements RestReadableController<S, R, T, ID> {
 
@@ -57,7 +55,6 @@ public class RestReadableControllerImpl<S extends ReadableService<R, T, ID>, R e
 	}
 
 	@Override
-	@ApiOperation(value = "Count entities")
 	@RequestMapping(value = CrudConstants.OPERATION_COUNT, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<Long>> count() {
 		Resource<Long> resource = new Resource<Long>(Long.valueOf(service.count()));
@@ -67,7 +64,6 @@ public class RestReadableControllerImpl<S extends ReadableService<R, T, ID>, R e
 	}
 
 	@Override
-	@ApiOperation(value = "Verify if the specific entity exists")
 	@RequestMapping(value = CrudConstants.OPERATION_EXISTS + CrudConstants.ID, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<Boolean>> exists(@PathVariable("id") ID id) {
 		Resource<Boolean> resource = new Resource<Boolean>(service.exists(id));
@@ -89,7 +85,6 @@ public class RestReadableControllerImpl<S extends ReadableService<R, T, ID>, R e
 	 * @return all sorted entities
 	 */
 	@Override
-	@ApiOperation(value = "Find all entities")
 	@RequestMapping(value = CrudConstants.OPERATION_FIND_ALL_SORTED, method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resources<T>> findAll(Sort sort) {
 		Resources<T> resource = new Resources<T>(service.findAll(sort));
@@ -97,7 +92,6 @@ public class RestReadableControllerImpl<S extends ReadableService<R, T, ID>, R e
 	}
 
 	@Override
-	@ApiOperation(value = "Find specific entity")
 	@RequestMapping(value = CrudConstants.OPERATION_FIND_ONE + CrudConstants.ID, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<T>> findOne(@PathVariable("id") ID id) {
 		T entity = service.findOne(id);
@@ -112,7 +106,6 @@ public class RestReadableControllerImpl<S extends ReadableService<R, T, ID>, R e
 	}
 
 	@Override
-	@ApiOperation(value = "Validate the entity")
 	@RequestMapping(value = CrudConstants.OPERATION_VALIDATE, method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<Boolean>> validate(@RequestBody @Valid T entity, BindingResult bindingResult) {
 

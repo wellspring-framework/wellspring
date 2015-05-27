@@ -67,8 +67,7 @@ public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudR
 	 * 
 	 * @param id
 	 *            must not be {@literal null}.
-	 * @return true if an entity with the given id exists, {@literal false}
-	 *         otherwise
+	 * @return true if an entity with the given id exists, {@literal false} otherwise
 	 * @throws IllegalArgumentException
 	 *             if {@code id} is {@literal null}
 	 */
@@ -90,7 +89,6 @@ public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudR
 	Iterable<T> findAll(Iterable<ID> ids);
 
 	/**
-	 * 
 	 * @param pageable
 	 * @return all paginated entities
 	 */
@@ -160,8 +158,7 @@ public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudR
 	// List<T> findAll(Specification<T> spec);
 
 	/**
-	 * Returns a {@link Page} of entities matching the given
-	 * {@link Specification}.
+	 * Returns a {@link Page} of entities matching the given {@link Specification}.
 	 * 
 	 * @param spec
 	 * @param pageable
@@ -170,8 +167,7 @@ public interface CrudController<S extends CrudService<R, T, ID>, R extends CrudR
 	// Page<T> findAll(Specification<T> spec, Pageable pageable);
 
 	/**
-	 * Returns all entities matching the given {@link Specification} and
-	 * {@link Sort}.
+	 * Returns all entities matching the given {@link Specification} and {@link Sort}.
 	 * 
 	 * @param spec
 	 * @param sort

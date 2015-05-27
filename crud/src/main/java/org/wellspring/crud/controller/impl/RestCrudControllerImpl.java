@@ -35,8 +35,6 @@ import org.wellspring.crud.persistence.repository.CrudRepository;
 import org.wellspring.crud.service.CrudService;
 import org.wellspring.crud.util.CrudConstants;
 
-import com.wordnik.swagger.annotations.ApiOperation;
-
 public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends CrudRepository<T, ID>, T extends Persistable<ID>, ID extends Serializable>
 		implements RestCrudController<S, R, T, ID> {
 
@@ -60,7 +58,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Count entities")
 	@RequestMapping(value = CrudConstants.OPERATION_COUNT, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<Long>> count() {
 		Resource<Long> resource = new Resource<Long>(Long.valueOf(service.count()));
@@ -70,7 +67,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Delete specific entity")
 	@RequestMapping(value = CrudConstants.OPERATION_DELETE_BY_ID + CrudConstants.ID, method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<T>> delete(@PathVariable("id") ID id) {
 		T entity = service.findOne(id);
@@ -112,7 +108,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Delete all entities")
 	@RequestMapping(value = CrudConstants.OPERATION_DELETE_ALL, method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resources<T>> deleteAll() {
 		Iterable<T> savedEntities = service.findAll();
@@ -124,7 +119,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Verify if the specific entity exists")
 	@RequestMapping(value = CrudConstants.OPERATION_EXISTS + CrudConstants.ID, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<Boolean>> exists(@PathVariable("id") ID id) {
 		Resource<Boolean> resource = new Resource<Boolean>(service.exists(id));
@@ -146,7 +140,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	 * @return all sorted entities
 	 */
 	@Override
-	@ApiOperation(value = "Find all entities")
 	@RequestMapping(value = CrudConstants.OPERATION_FIND_ALL_SORTED, method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resources<T>> findAll(Sort sort) {
 		Resources<T> resource = new Resources<T>(service.findAll(sort));
@@ -154,7 +147,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Find specific entity")
 	@RequestMapping(value = CrudConstants.OPERATION_FIND_ONE + CrudConstants.ID, method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<T>> findOne(@PathVariable("id") ID id) {
 		T entity = service.findOne(id);
@@ -188,7 +180,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Save the entity ")
 	@RequestMapping(value = CrudConstants.OPERATION_SAVE, method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<T>> save(@RequestBody @Valid T entity, BindingResult bindingResult, Model model) {
 		validate(entity, bindingResult);
@@ -203,8 +194,8 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Update the entity")
-	@RequestMapping(value = CrudConstants.OPERATION_UPDATE + CrudConstants.ID, method = RequestMethod.PUT, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = CrudConstants.OPERATION_UPDATE + CrudConstants.ID, method = RequestMethod.PUT, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<T>> update(@RequestBody @Valid T entity, @PathVariable("id") ID id, BindingResult bindingResult, Model model) {
 		validate(entity, bindingResult);
 		Resource<T> resource = new Resource<T>(service.save(entity));
@@ -217,7 +208,6 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 	}
 
 	@Override
-	@ApiOperation(value = "Validate the entity")
 	@RequestMapping(value = CrudConstants.OPERATION_VALIDATE, method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HttpEntity<Resource<Boolean>> validate(@RequestBody @Valid T entity, BindingResult bindingResult) {
 
@@ -243,7 +233,7 @@ public class RestCrudControllerImpl<S extends CrudService<R, T, ID>, R extends C
 		return new Link(linkTo(getClass()).toUriComponentsBuilder().path(path).buildAndExpand(id).toUriString()).withRel(rel);
 	}
 
-	private Link buildPageLink(int page, int size, String rel) {
+	protected Link buildPageLink(int page, int size, String rel) {
 		String path = ServletUriComponentsBuilder.fromCurrentRequestUri()
 				.queryParam(PAGE, page)
 				.queryParam(SIZE, size)

@@ -9,7 +9,19 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>crud</artifactId>
-
+	<properties>
+		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+	</properties>
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -93,7 +105,7 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -131,12 +143,12 @@
 			<groupId>org.springframework.plugin</groupId>
 			<artifactId>spring-plugin-core</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupId>com.mangofactory</groupId>
-			<artifactId>swagger-springmvc</artifactId>
+			<groupId>org.springframework.restdocs</groupId>
+			<artifactId>spring-restdocs</artifactId>
+			<version>1.0.0.BUILD-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 	<build>
 		<plugins>
@@ -151,6 +163,7 @@
 						<goals>
 							<goal>test</goal>
 						</goals>
+
 						<configuration>
 							<!-- Never skip running the tests when the test phase is invoked -->
 							<skip>false</skip>
@@ -177,7 +190,13 @@
 							<includes>
 								<!-- Include integration tests within integration-test phase. -->
 								<include>**/*IntegrationTests.java</include>
+								<include>**/*Documentation.java</include>
 							</includes>
+							<systemPropertyVariables>
+								<org.springframework.restdocs.outputDir>
+									${snippetsDirectory}
+								</org.springframework.restdocs.outputDir>
+							</systemPropertyVariables>
 						</configuration>
 					</execution>
 				</executions>
@@ -188,6 +207,52 @@
 					<!-- Show 100% of the lines from the stack trace (doesn't work) -->
 					<trimStackTrace>false</trimStackTrace>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.2</version>
+				<executions>
+					<execution>
+						<id>generate-docs</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html</backend>
+							<doctype>book</doctype>
+							<attributes>
+								<snippets>${snippetsDirectory}</snippets>
+							</attributes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.outputDirectory}/static/docs
+							</outputDirectory>
+							<resources>
+								<resource>
+									<directory>
+										${project.build.directory}/generated-docs
+									</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

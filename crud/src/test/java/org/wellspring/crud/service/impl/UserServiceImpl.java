@@ -10,7 +10,7 @@ import org.wellspring.crud.service.UserService;
 
 @Service
 public class UserServiceImpl extends
-		CrudServiceImpl<UserRepository, User, Long> implements UserService {
+		CrudServiceImpl<UserRepository, User, Long>implements UserService {
 
 	@Override
 	public List<User> findBySearchTerm(String searchTerm) {
