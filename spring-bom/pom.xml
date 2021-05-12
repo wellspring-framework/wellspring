@@ -12,7 +12,7 @@
 	</parent>
 	<properties>
 		<org.springframework.version>4.1.7.RELEASE</org.springframework.version>
-		<spring.security.version>4.0.2.RELEASE</spring.security.version>
+		<spring.security.version>5.2.10.RELEASE</spring.security.version>
 		<javax.servlet-api>3.1.0</javax.servlet-api>
 		<javax.mail.version>1.4.7</javax.mail.version>
 		<javax.validation>1.1.0.Final</javax.validation>
