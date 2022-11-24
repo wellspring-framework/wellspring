@@ -12,7 +12,7 @@
 	</parent>
 	<properties>
 		<persistence-api.version>1.0.2</persistence-api.version>
-		<hibernate.version>4.3.8.Final</hibernate.version>
+		<hibernate.version>5.3.20.Final</hibernate.version>
 		<hibernate-search-orm.version>5.1.0.Final</hibernate-search-orm.version>
 		<tck-utils-api.version>0.9.1</tck-utils-api.version>
 		<hibernate-validator.version>5.1.2.Final</hibernate-validator.version>
